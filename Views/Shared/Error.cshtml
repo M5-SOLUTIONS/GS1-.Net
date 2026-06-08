@@ -1,0 +1,16 @@
+@model M5Storage.Models.ErrorViewModel
+@{
+    ViewData["Title"] = "Erro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="text-align:center; padding:4rem 1rem;">
+    <i class="fas fa-satellite fa-3x mb-3" style="color:var(--neon-red); opacity:0.6;"></i>
+    <h1 style="color:var(--neon-red); font-size:1.4rem; letter-spacing:2px; text-transform:uppercase;">Falha no Sistema</h1>
+    <p style="color:var(--text-muted);">Ocorreu um erro inesperado. Tente novamente.</p>
+    @if (Model.ShowRequestId)
+    {
+        <p style="color:var(--text-muted); font-size:0.78rem;">Request ID: @Model.RequestId</p>
+    }
+    <a asp-controller="Home" asp-action="Index" class="btn-m5-primary mt-3">Voltar ao Dashboard</a>
+</div>

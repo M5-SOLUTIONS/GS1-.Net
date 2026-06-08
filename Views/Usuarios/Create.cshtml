@@ -1,0 +1,45 @@
+@model M5Storage.Models.Usuario
+@{
+    ViewData["Title"] = "Novo Usuário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="fas fa-user-plus"></i>Novo Usuário</h1>
+    <a asp-action="Index" class="btn-m5-secondary"><i class="fas fa-arrow-left me-1"></i>Voltar</a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card-m5 p-4">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert-m5-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label class="form-label-m5">Nome</label>
+                    <input asp-for="Nome" class="form-control-m5 w-100" placeholder="Nome completo" />
+                    <span asp-validation-for="Nome" style="color:#ff6090; font-size:0.78rem;"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label-m5">Email</label>
+                    <input asp-for="Email" type="email" class="form-control-m5 w-100" placeholder="email@base.com" />
+                    <span asp-validation-for="Email" style="color:#ff6090; font-size:0.78rem;"></span>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label-m5">Senha</label>
+                    <input asp-for="Senha" type="password" class="form-control-m5 w-100" placeholder="••••••••" />
+                    <span asp-validation-for="Senha" style="color:#ff6090; font-size:0.78rem;"></span>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn-m5-success"><i class="fas fa-check me-1"></i>Cadastrar</button>
+                    <a asp-action="Index" class="btn-m5-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

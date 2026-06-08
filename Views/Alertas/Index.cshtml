@@ -1,0 +1,73 @@
+@model IEnumerable<M5Storage.Models.Alerta>
+@{
+    ViewData["Title"] = "Alertas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="page-title" style="color:var(--neon-red);"><i class="fas fa-bell"></i>Alertas</h1>
+        <p style="color:var(--text-muted); font-size:0.78rem; letter-spacing:1px; margin-top:4px;">Monitoramento de recursos críticos</p>
+    </div>
+    <a asp-controller="Home" asp-action="Index" class="btn-m5-secondary"><i class="fas fa-arrow-left me-1"></i>Dashboard</a>
+</div>
+
+<div class="card-m5">
+    <table class="table table-m5 mb-0">
+        <thead>
+            <tr>
+                <th>#ID</th>
+                <th>Recurso</th>
+                <th>Mensagem</th>
+                <th>Nível</th>
+                <th>Status</th>
+                <th>Data</th>
+                <th style="text-align:center;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var nivelClass = item.Nivel?.ToUpper() switch {
+                    "CRITICO" => "badge-critico",
+                    "BAIXO" => "badge-baixo",
+                    _ => "badge-normal"
+                };
+                var resolvidoClass = item.Resolvido == 1 ? "badge-normal" : "badge-critico";
+                var resolvidoText = item.Resolvido == 1 ? "RESOLVIDO" : "ABERTO";
+
+                <tr style="@(item.Resolvido == 1 ? "opacity:0.5;" : "")">
+                    <td style="color:var(--text-muted); font-size:0.8rem;">#@item.Id</td>
+                    <td><strong>@(item.Recurso?.Nome ?? "—")</strong></td>
+                    <td style="font-size:0.85rem; max-width:320px;">@item.Mensagem</td>
+                    <td><span class="@nivelClass">@(item.Nivel ?? "—")</span></td>
+                    <td><span class="@resolvidoClass">@resolvidoText</span></td>
+                    <td style="color:var(--text-muted); font-size:0.8rem;">@(item.DataAlerta?.ToString("dd/MM/yy HH:mm") ?? "—")</td>
+                    <td style="text-align:center;">
+                        @if (item.Resolvido == 0)
+                        {
+                            <form asp-action="Resolver" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="btn-m5-success" style="margin-right:6px;">
+                                    <i class="fas fa-check me-1"></i>Resolver
+                                </button>
+                            </form>
+                        }
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn-m5-danger">
+                            <i class="fas fa-trash me-1"></i>Excluir
+                        </a>
+                    </td>
+                </tr>
+            }
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="7" style="text-align:center; color:var(--text-muted); padding:2rem;">
+                        <i class="fas fa-shield-alt fa-2x mb-2" style="display:block; opacity:0.3; color:var(--neon-green);"></i>
+                        <span style="color:var(--neon-green);">Nenhum alerta ativo. Base operando normalmente.</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

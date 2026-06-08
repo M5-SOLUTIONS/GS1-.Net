@@ -1,0 +1,64 @@
+@model M5Storage.Models.Movimentacao
+@{
+    ViewData["Title"] = "Nova Movimentação";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="fas fa-exchange-alt"></i>Nova Movimentação</h1>
+    <a asp-action="Index" class="btn-m5-secondary"><i class="fas fa-arrow-left me-1"></i>Voltar</a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card-m5 p-4">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert-m5-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label class="form-label-m5">Recurso</label>
+                    <select asp-for="RecursoId" class="form-select-m5 w-100" asp-items="ViewBag.RecursoId">
+                        <option value="">Selecione o recurso...</option>
+                    </select>
+                    <span asp-validation-for="RecursoId" style="color:#ff6090; font-size:0.78rem;"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label-m5">Usuário Responsável</label>
+                    <select asp-for="UsuarioId" class="form-select-m5 w-100" asp-items="ViewBag.UsuarioId">
+                        <option value="">Selecione o usuário...</option>
+                    </select>
+                    <span asp-validation-for="UsuarioId" style="color:#ff6090; font-size:0.78rem;"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label-m5">Tipo de Movimentação</label>
+                    <select asp-for="TipoMovimentacao" class="form-select-m5 w-100">
+                        <option value="CONSUMO">Consumo</option>
+                        <option value="REABASTECIMENTO">Reabastecimento</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label-m5">Quantidade</label>
+                    <input asp-for="Quantidade" type="number" step="0.01" class="form-control-m5 w-100" placeholder="0.00" />
+                    <span asp-validation-for="Quantidade" style="color:#ff6090; font-size:0.78rem;"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label-m5">Descrição (opcional)</label>
+                    <input asp-for="Descricao" class="form-control-m5 w-100" placeholder="Motivo ou observação..." />
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn-m5-success"><i class="fas fa-check me-1"></i>Registrar</button>
+                    <a asp-action="Index" class="btn-m5-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

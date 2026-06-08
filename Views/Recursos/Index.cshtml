@@ -1,0 +1,73 @@
+@model IEnumerable<M5Storage.Models.Recurso>
+@{
+    ViewData["Title"] = "Recursos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="page-title"><i class="fas fa-database"></i>Recursos</h1>
+        <p style="color:var(--text-muted); font-size:0.78rem; letter-spacing:1px; margin-top:4px;">Estoque de suprimentos da base</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-controller="Home" asp-action="Index" class="btn-m5-secondary"><i class="fas fa-arrow-left me-1"></i>Dashboard</a>
+        <a asp-action="Create" class="btn-m5-success"><i class="fas fa-plus me-1"></i>Novo Recurso</a>
+    </div>
+</div>
+
+<div class="card-m5">
+    <table class="table table-m5 mb-0">
+        <thead>
+            <tr>
+                <th>#ID</th>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Quantidade</th>
+                <th>Mínimo</th>
+                <th>Nível</th>
+                <th>Status</th>
+                <th>Última Atualização</th>
+                <th style="text-align:center;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var nivelClass = item.Nivel?.ToUpper() switch {
+                    "CRITICO" => "badge-critico",
+                    "BAIXO" => "badge-baixo",
+                    "ALTO" => "badge-alto",
+                    _ => "badge-normal"
+                };
+                var statusClass = item.Status?.ToUpper() == "CRITICO" ? "badge-critico" : "badge-normal";
+                <tr>
+                    <td style="color:var(--text-muted); font-size:0.8rem;">#@item.Id</td>
+                    <td><strong>@item.Nome</strong></td>
+                    <td style="color:var(--text-muted); font-size:0.82rem; letter-spacing:1px;">@item.Categoria</td>
+                    <td>@item.Quantidade</td>
+                    <td style="color:var(--text-muted);">@item.Minimo</td>
+                    <td><span class="@nivelClass">@(item.Nivel ?? "—")</span></td>
+                    <td><span class="@statusClass">@(item.Status ?? "—")</span></td>
+                    <td style="color:var(--text-muted); font-size:0.8rem;">@(item.UltimaAtualizacao?.ToString("dd/MM/yy HH:mm") ?? "—")</td>
+                    <td style="text-align:center;">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn-m5-warning" style="margin-right:6px;">
+                            <i class="fas fa-pen me-1"></i>Editar
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn-m5-danger">
+                            <i class="fas fa-trash me-1"></i>Excluir
+                        </a>
+                    </td>
+                </tr>
+            }
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="9" style="text-align:center; color:var(--text-muted); padding:2rem;">
+                        <i class="fas fa-box-open fa-2x mb-2" style="display:block; opacity:0.3;"></i>
+                        Nenhum recurso cadastrado.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

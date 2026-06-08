@@ -1,0 +1,128 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mb-4 d-flex justify-content-between align-items-center">
+    <div>
+        <h1 class="page-title"><i class="fas fa-satellite-dish"></i>Central de Comando</h1>
+        <p style="color:var(--text-muted); font-size:0.8rem; letter-spacing:1px; margin-top:4px;">
+            M5-STORAGE — SISTEMA DE GESTÃO DE RECURSOS ESPACIAIS
+        </p>
+    </div>
+    <div style="color:var(--text-muted); font-size:0.78rem; letter-spacing:1px; text-align:right;">
+        <i class="fas fa-circle" style="color:var(--neon-green); font-size:0.6rem;"></i> SISTEMA ONLINE<br>
+        <span id="clock"></span>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="stat-card stat-card-cyan">
+            <div class="stat-icon" style="color:var(--neon-cyan)"><i class="fas fa-user-astronaut"></i></div>
+            <div class="stat-number" style="color:var(--neon-cyan)">@ViewBag.TotalUsuarios</div>
+            <div class="stat-label">Usuários</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="stat-card stat-card-blue">
+            <div class="stat-icon" style="color:#82b1ff"><i class="fas fa-database"></i></div>
+            <div class="stat-number" style="color:#82b1ff">@ViewBag.TotalRecursos</div>
+            <div class="stat-label">Recursos</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="stat-card stat-card-green">
+            <div class="stat-icon" style="color:var(--neon-green)"><i class="fas fa-exchange-alt"></i></div>
+            <div class="stat-number" style="color:var(--neon-green)">@ViewBag.TotalMovimentacoes</div>
+            <div class="stat-label">Movimentações</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="stat-card stat-card-red">
+            <div class="stat-icon" style="color:var(--neon-red)"><i class="fas fa-bell"></i></div>
+            <div class="stat-number" style="color:var(--neon-red)">@ViewBag.AlertasAbertos</div>
+            <div class="stat-label">Alertas Abertos</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="stat-card stat-card-yellow">
+            <div class="stat-icon" style="color:var(--neon-yellow)"><i class="fas fa-radiation"></i></div>
+            <div class="stat-number" style="color:var(--neon-yellow)">@ViewBag.RecursosCriticos</div>
+            <div class="stat-label">Críticos</div>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.AlertasAbertos > 0)
+{
+    <div style="background:rgba(255,23,68,0.07); border:1px solid rgba(255,23,68,0.3); border-radius:6px; padding:1rem 1.5rem; margin-bottom:1.5rem;">
+        <i class="fas fa-exclamation-triangle" style="color:var(--neon-red)"></i>
+        <span style="color:#ff6090; font-size:0.88rem; margin-left:8px;">
+            <strong>@ViewBag.AlertasAbertos alerta(s) crítico(s)</strong> aguardando resolução. Verifique os recursos imediatamente.
+        </span>
+        <a asp-controller="Alertas" asp-action="Index" class="btn-m5-danger ms-3" style="font-size:0.75rem; padding:0.3rem 0.8rem;">
+            Ver Alertas
+        </a>
+    </div>
+}
+
+<div class="row g-3">
+    <div class="col-12">
+        <div class="card-m5 p-3">
+            <div style="font-size:0.75rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); margin-bottom:1rem;">
+                <i class="fas fa-rocket me-2"></i>Acesso Rápido — Módulos do Sistema
+            </div>
+            <div class="row g-3">
+                <div class="col-6 col-md-3">
+                    <a asp-controller="Usuarios" asp-action="Index"
+                       style="display:block; background:rgba(0,229,255,0.04); border:1px solid rgba(0,229,255,0.2); border-radius:6px; padding:1.2rem; text-align:center; text-decoration:none; transition:all 0.25s;"
+                       onmouseover="this.style.borderColor='rgba(0,229,255,0.5)'; this.style.background='rgba(0,229,255,0.08)'"
+                       onmouseout="this.style.borderColor='rgba(0,229,255,0.2)'; this.style.background='rgba(0,229,255,0.04)'">
+                        <i class="fas fa-user-astronaut fa-2x mb-2" style="color:var(--neon-cyan); display:block;"></i>
+                        <span style="color:var(--neon-cyan); font-size:0.78rem; letter-spacing:1px; text-transform:uppercase;">Usuários</span>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3">
+                    <a asp-controller="Recursos" asp-action="Index"
+                       style="display:block; background:rgba(130,177,255,0.04); border:1px solid rgba(130,177,255,0.2); border-radius:6px; padding:1.2rem; text-align:center; text-decoration:none; transition:all 0.25s;"
+                       onmouseover="this.style.borderColor='rgba(130,177,255,0.5)'; this.style.background='rgba(130,177,255,0.08)'"
+                       onmouseout="this.style.borderColor='rgba(130,177,255,0.2)'; this.style.background='rgba(130,177,255,0.04)'">
+                        <i class="fas fa-database fa-2x mb-2" style="color:#82b1ff; display:block;"></i>
+                        <span style="color:#82b1ff; font-size:0.78rem; letter-spacing:1px; text-transform:uppercase;">Recursos</span>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3">
+                    <a asp-controller="Movimentacoes" asp-action="Index"
+                       style="display:block; background:rgba(0,230,118,0.04); border:1px solid rgba(0,230,118,0.2); border-radius:6px; padding:1.2rem; text-align:center; text-decoration:none; transition:all 0.25s;"
+                       onmouseover="this.style.borderColor='rgba(0,230,118,0.5)'; this.style.background='rgba(0,230,118,0.08)'"
+                       onmouseout="this.style.borderColor='rgba(0,230,118,0.2)'; this.style.background='rgba(0,230,118,0.04)'">
+                        <i class="fas fa-exchange-alt fa-2x mb-2" style="color:var(--neon-green); display:block;"></i>
+                        <span style="color:var(--neon-green); font-size:0.78rem; letter-spacing:1px; text-transform:uppercase;">Movimentações</span>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3">
+                    <a asp-controller="Alertas" asp-action="Index"
+                       style="display:block; background:rgba(255,23,68,0.04); border:1px solid rgba(255,23,68,0.2); border-radius:6px; padding:1.2rem; text-align:center; text-decoration:none; transition:all 0.25s;"
+                       onmouseover="this.style.borderColor='rgba(255,23,68,0.5)'; this.style.background='rgba(255,23,68,0.08)'"
+                       onmouseout="this.style.borderColor='rgba(255,23,68,0.2)'; this.style.background='rgba(255,23,68,0.04)'">
+                        <i class="fas fa-bell fa-2x mb-2" style="color:var(--neon-red); display:block;"></i>
+                        <span style="color:var(--neon-red); font-size:0.78rem; letter-spacing:1px; text-transform:uppercase;">Alertas</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('clock').textContent =
+            now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR');
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+</script>
+}
