@@ -251,6 +251,20 @@ Acesse: `https://localhost:7100`
 
 ---
 
+# Link Vídeos
+
+## 1. Vídeo apresentação
+```http
+https://youtu.be/2WzsM5Qzcew
+```
+
+## 2. Vídeo pitch
+```http
+https://www.youtube.com/watch?v=6SMKNB_aJPI
+```
+
+
+---
 # Desenvolvido por
 
 - Guilherme Cintra RM562850
